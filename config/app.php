@@ -187,6 +187,5 @@ return [
 
     //Hosts whitelist
     'whitelist' => [
-            '127.0.0.1' => 'jonathancmaia@gmail.com',
     ]
 ];
