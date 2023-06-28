@@ -16,7 +16,7 @@ class CheckHost
         $currentHost = $request->getHost();
 
         if (!array_key_exists($currentHost, $allowedHosts)) {
-            return response()->json(['message' => 'Host not authorized.'], 403);
+            return response()->json(['message' => 'Host ('.$currentHost.') not authorized.'], 403);
         }
 
         return $next($request);
