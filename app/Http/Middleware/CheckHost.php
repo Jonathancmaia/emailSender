@@ -13,7 +13,7 @@ class CheckHost
     {
         $allowedHosts = Config::get('app.whitelist');
 
-        $currentHost = $request->getHost();
+        $currentHost = $request->header('X-Forwarded-Host');
 
         if (!array_key_exists($currentHost, $allowedHosts)) {
             return response()->json(['message' => 'Host ('.$currentHost.') not authorized.'], 403);
