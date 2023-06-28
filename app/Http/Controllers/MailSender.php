@@ -16,7 +16,7 @@ class MailSender extends Controller
     public function __construct(Request $request)
     {
         $this->data = $request;
-        $this->host = $request->getHost();
+        $this->host = $request->header("x-forwarded-for");
     }
 
     public function sendEmail()
