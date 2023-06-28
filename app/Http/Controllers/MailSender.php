@@ -11,18 +11,15 @@ use Illuminate\Support\Facades\Config;
 class MailSender extends Controller
 {
     private $data;
-    private $host;
 
     public function __construct(Request $request)
     {
         $this->data = $request;
-        $this->host = $request->header("x-forwarded-for");
     }
 
     public function sendEmail()
     {
-        
-        $email = Config::get('app.whitelist')[$this->host];
+        $email = Config::get('app.whitelist')[Config::get('currentHost')];
 
         if (Mail::to($email)->send(new SendMessage($this->data))){
             return response()->json(['message' => 'Success.'], 200);

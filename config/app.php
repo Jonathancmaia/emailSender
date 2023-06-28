@@ -187,8 +187,9 @@ return [
 
     //Hosts whitelist
     'whitelist' => [
-        'caelconsultoria.com.br'=>'arthuurtorres@outlook.com',
+        'caelconsultoria.com.br'=>'consultoriacaell@gmail.com',
         '179.191.215.182'=>'arthuurtorres@outlook.com',
-        '177.192.4.142'=>'jonathancmaia@gmail.com'
+        '177.192.4.142'=>'jonathancmaia@gmail.com',
+        '127.0.0.1'=>'jonathancmaia@gmail.com'
     ]
 ];

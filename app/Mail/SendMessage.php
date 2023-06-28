@@ -23,7 +23,7 @@ class SendMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Message',
+            subject: 'Você recebeu um lead',
         );
     }
 
