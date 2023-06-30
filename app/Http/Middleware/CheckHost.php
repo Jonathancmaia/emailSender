@@ -13,8 +13,8 @@ class CheckHost
     {
         $allowedHosts = Config::get('app.whitelist');
 
-        if($request->header("x-forwarded-for") !== null){
-            Config::set('currentHost', $request->header("x-forwarded-for"));
+        if($request->header("origin") !== null){
+            Config::set('currentHost', $request->header("origin"));
         } else {
             Config::set('currentHost', $request->getHost());
         }
