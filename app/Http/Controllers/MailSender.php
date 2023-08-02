@@ -19,12 +19,20 @@ class MailSender extends Controller
 
     public function sendEmail()
     {
-        $email = Config::get('app.whitelist')[Config::get('currentHost')];
+        //Send email
+        $email = Config::get('app.whitelist')[Config::get('currentHost')][0];
 
         if (Mail::to($email)->send(new SendMessage($this->data))){
-            return response()->json(['message' => 'Success.'], 200);
+
+            //if has a phone number, send to whatsapp
+            if(isset(Config::get('app.whitelist')[Config::get('currentHost')][1])){
+                $phone = Config::get('app.whitelist')[Config::get('currentHost')][1];
+                return $phone;
+            } else {
+                return response()->json(['message' => 'Success on sending email.'], 200);
+            }
         } else {
-            return response()->json(['message' => 'Failed.'], 403);
+            return response()->json(['message' => 'Failed on sending email.'], 403);
         }
     }
 }
