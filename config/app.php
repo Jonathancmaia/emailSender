@@ -188,6 +188,6 @@ return [
     //Hosts whitelist
     'whitelist' => [
         'caelconsultoria.com.br'=>['consultoriacaell@gmail.com'],
-        'emailsender.test'=>['jonathancmaia@gmail.com', '+5521980892433']
+        'emailsender.test'=>['jonathancmaia@gmail.com', '5521980892433']
     ]
 ];
