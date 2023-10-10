@@ -21,13 +21,13 @@ class MailSender extends Controller
     public function sendEmail()
     {
         //Send email
-        $email = Config::get('app.whitelist')[Config::get('currentHost')][0];
+        $email = Config::get('app.whitelist')[Config::get('currentToken')][0];
 
         if (Mail::to($email)->send(new SendMessage($this->data))){
 
             //if has a phone number, send to whatsapp
-            if(isset(Config::get('app.whitelist')[Config::get('currentHost')][1])){
-                $phone = Config::get('app.whitelist')[Config::get('currentHost')][1];
+            if(isset(Config::get('app.whitelist')[Config::get('currentToken')][1])){
+                $phone = Config::get('app.whitelist')[Config::get('currentToken')][1];
 
                 //message to string
                 $dataString = "";

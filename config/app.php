@@ -187,7 +187,7 @@ return [
 
     //Hosts whitelist
     'whitelist' => [
-        'caelconsultoria.com.br'=>['consultoriacaell@gmail.com'],
-        'emailsender.test'=>['jonathancmaia@gmail.com', '5521980892433']
+        'wadawada'=>['jonathancmaia@gmail.com', '5521980892433'],
+        '1dCnjQYM1c8bM75eBFW65248c9d537be'=>['komabemcongelados@gmail.com', '5521972770807']
     ]
 ];
