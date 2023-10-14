@@ -187,7 +187,6 @@ return [
 
     //Hosts whitelist
     'whitelist' => [
-        'wadawada'=>['jonathancmaia@gmail.com', '5521980892433'],
-        '1dCnjQYM1c8bM75eBFW65248c9d537be'=>['komabemcongelados@gmail.com', '5521972770807']
+        'fTF3aruSzOtxva0w12gS5jvVSX8ApA72'=>['jonathancmaia@gmail.com', '5521980892433']
     ]
 ];
