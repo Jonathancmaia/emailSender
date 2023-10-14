@@ -2,43 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Mail\SendMessage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Config;
 use ApiBrasil\Service;
 use App\Http\Controllers\LeadController;
+use App\Models\App;
 
 class MailSender extends Controller
 {
-    private $data;
 
-    public function __construct(Request $request)
+    public function sendLead($currentToken, $data)
     {
-        $this->data = $request;
-    }
 
-    public function sendEmail()
-    {
         //Send email
-        $email = Config::get('app.whitelist')[Config::get('currentToken')][0];
+        $app = App::find($currentToken);
 
         //Save lead
         $leadController = new LeadController();
 
-        if ($leadController->save(Config::get('currentToken'), $this->data->all())){
+        if ($leadController->save($currentToken, $data->all())){
 
             //Send to e-mail
-            if (Mail::to($email)->send(new SendMessage($this->data))){
+            if (Mail::to($app->email)->send(new SendMessage($data))){
 
                 //if has a phone number, send to whatsapp
-                if(isset(Config::get('app.whitelist')[Config::get('currentToken')][1])){
-                    $phone = Config::get('app.whitelist')[Config::get('currentToken')][1];
+                if(isset($app->phone)){
 
                     //message to string
                     $dataString = "";
-                    foreach($this->data->all() as $key=>$value){
+                    
+                    foreach($data->all() as $key=>$value){
                         $dataString .= $key . ': ' . $value . "\n";
                     }
 
@@ -49,7 +44,7 @@ class MailSender extends Controller
                         "PublicToken" => "117c183e-fc58-4a08-b941-f7911e528f5d", 
                         "DeviceToken" => "7f88764e-f736-48cd-acea-9539fd9b260a",
                         "body" => [
-                            "number" => $phone,
+                            "number" => $app->phone,
                             "text" => $dataString
                         ]
                     ]);

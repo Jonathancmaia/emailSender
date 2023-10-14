@@ -184,9 +184,4 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-
-    //Hosts whitelist
-    'whitelist' => [
-        'fTF3aruSzOtxva0w12gS5jvVSX8ApA72'=>['jonathancmaia@gmail.com', '5521980892433']
-    ]
 ];

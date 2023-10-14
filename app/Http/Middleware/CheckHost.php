@@ -6,14 +6,16 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
+use App\Models\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use App\Http\Controllers\MailSender;
 
 class CheckHost
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $allowedTokens = Config::get('app.whitelist');
+
         $currentToken = $request->header("Token");
 
         $allowToken = RateLimiter::attempt(
@@ -25,10 +27,13 @@ class CheckHost
         if ($allowToken){
                 Config::set('currentToken', $currentToken);
 
-                if (!array_key_exists(Config::get('currentToken'), $allowedTokens)) {
+                $appExists = App::find($currentToken);
+
+                if (!isset($appExists->id)) {
                     return response()->json(['message' => 'Token ('.Config::get('currentToken').') not authorized.'], 403);
                 } else {
-                    return $next($request);
+                    $mailSenderControler = new MailSender();
+                    return $mailSenderControler->sendLead($currentToken, $request);
                 }
         } else {
             return response()->json(['message' => 'Too many requests sents on token ('.$currentToken.')'], 403);
