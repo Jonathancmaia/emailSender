@@ -21,7 +21,14 @@ class AppController extends Controller
         $request->validate([
             'name' => ['required'],
             'email' => ['required'],
-            'phone' => ['required']
+            'phone' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    if (!empty($value) && strlen(preg_replace('/\D/', '', $value)) != 13 && strlen(preg_replace('/\D/', '', $value)) != 12) {
+                        $fail("O campo deve possuir 12 ou 13 dígitos numéricos.");
+                    }
+                }
+            ]
         ]);
 
         $app = new App();
@@ -29,7 +36,10 @@ class AppController extends Controller
         $app->user =  $request->user()->id;
         $app->name = $request->input('name');
         $app->email = $request->input('email');
-        $app->phone = $request->input('phone');
+        
+        if($request->input('phone')){
+            $app->phone = preg_replace('/\D/', '', $request->input('phone'));
+        }
 
         $app->save();
 
@@ -53,14 +63,24 @@ class AppController extends Controller
             'id' => ['required'],
             'name' => ['required'],
             'email' => ['required'],
-            'phone' => ['required']
+            'phone' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    if (!empty($value) && strlen(preg_replace('/\D/', '', $value)) != 13 && strlen(preg_replace('/\D/', '', $value)) != 12) {
+                        $fail("O campo deve possuir 12 ou 13 dígitos numéricos.");
+                    }
+                }
+            ]
         ]);
 
         $app = App::find($request->input('id'));
 
         $app->name = $request->input('name');
         $app->email = $request->input('email');
-        $app->phone = $request->input('phone');
+
+        if($request->input('phone')){
+            $app->phone = preg_replace('/\D/', '', $request->input('phone'));
+        }
 
         $app->save();
 

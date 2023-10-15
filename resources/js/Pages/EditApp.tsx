@@ -8,6 +8,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
 
+import InputMask from 'react-input-mask';
+
 import Lead from '../Components/Lead';
 
 interface AppData {
@@ -89,12 +91,13 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
                                 <div className="mt-4">
                                     <InputLabel htmlFor="phone" value="Telefone" />
 
-                                    <TextInput
+                                    <InputMask
+                                        mask={data.phone.length == 15 ? '99 99 9999-99999' : '99 99 9999-99999'}
                                         id="phone"
                                         type="text"
                                         name="phone"
                                         value={data.phone}
-                                        className="mt-1 block w-full"
+                                        className="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
                                         onChange={(e) => setData('phone', e.target.value)}
                                     />
 
