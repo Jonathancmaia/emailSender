@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Lead;
-
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
@@ -16,5 +16,17 @@ class LeadController extends Controller
         $lead->save();
 
         return response('Success.', 200);
+    }
+
+    function delete($id){
+
+        try {
+            $lead = Lead::find($id);
+            $appKey = $lead->app;
+            $lead->delete();
+            return Redirect::route('edit-app', ['id' => $appKey]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao excluir o registro'], 500);
+        }
     }
 }

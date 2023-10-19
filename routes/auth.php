@@ -57,7 +57,4 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-
-    Route::post('/create-app', [AppController::class, 'save'])->name('save-app');
-    Route::post('/alter-app', [AppController::class, 'alter'])->name('alter-app');
 });

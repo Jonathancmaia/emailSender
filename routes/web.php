@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\LeadController;
 use App\Models\App;
 use App\Models\User;
 
@@ -36,8 +37,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
     Route::get('/create-app', [AppController::class, 'create'])->name('create-app');
     Route::get('/edit-app/{id}', [AppController::class, 'edit'])->name('edit-app');
+    Route::post('/create-app', [AppController::class, 'save'])->name('save-app');
+    Route::post('/alter-app', [AppController::class, 'alter'])->name('alter-app');
+    Route::post('/delete-app', [AppController::class, 'delete'])->name('delete-app');
+    Route::get('/delete-lead/{id}', [LeadController::class, 'delete'])->name('delete-lead');
 });
 
 require __DIR__.'/auth.php';

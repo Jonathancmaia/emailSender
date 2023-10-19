@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('app', 32)->references('id')->on('apps');
             $table->json('data');
+            $table->char('step')->default(0);
             $table->timestamps();
         });
     }

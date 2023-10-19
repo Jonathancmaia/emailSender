@@ -1,0 +1,5 @@
+[02-Aug-2023 22:51:35 America/Fortaleza] PHP Warning:  require(/home2/gorill22/public_html/../vendor/autoload.php): Failed to open stream: No such file or directory in /home2/gorill22/public_html/index.php on line 34
+[02-Aug-2023 22:51:35 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '/home2/gorill22/public_html/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home2/gorill22/public_html/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home2/gorill22/public_html/index.php on line 34

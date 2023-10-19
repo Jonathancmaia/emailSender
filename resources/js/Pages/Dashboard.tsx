@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import { Link } from '@inertiajs/react';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 interface AppData {
     name: string;
@@ -24,7 +25,9 @@ export default function Dashboard({ auth, apps }: PageProps & { apps: AppData[] 
                                 type="button"
                                 href={route('create-app')}
                             >
-                                Crie um receptor de lead
+                                <PrimaryButton>
+                                    Crie um receptor de lead
+                                </PrimaryButton>
                             </Link>
                         </div>
 

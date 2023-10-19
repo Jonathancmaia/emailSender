@@ -86,4 +86,17 @@ class AppController extends Controller
 
         return Redirect::to('/dashboard');
     }
+
+    function delete(Request $request){
+        $app = App::find($request->input('id'));
+        
+        if($app->delete()){
+
+            Lead::where('app', $request->input('id'))->delete();
+
+            return Redirect::to('/dashboard');
+        } else {
+            return response()->json('Erro ao excluir App.');
+        }
+    }
 }
