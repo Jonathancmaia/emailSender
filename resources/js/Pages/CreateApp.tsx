@@ -35,9 +35,16 @@ export default function Dashboard({ auth }: PageProps) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
+                            <h1 className="text-xl mb-5">
+                                Um receptor de lead vai gerar um token que vai autenticar suas requests à API
+                            </h1>
                             <form onSubmit={submit}>
                                 <div>
                                     <InputLabel htmlFor="name" value="Nome" />
+                                    
+                                    <span className="text-sm text-slate-500 mb-5">
+                                        Este é o nome da sua aplicação.
+                                    </span>
 
                                     <TextInput
                                         id="name"
@@ -56,6 +63,10 @@ export default function Dashboard({ auth }: PageProps) {
                                 <div className="mt-4">
                                     <InputLabel htmlFor="email" value="Email" />
 
+                                    <span className="text-sm text-slate-500 mb-5">
+                                        Este é o e-mail onde você receberá a notifcação de um novo lead recebido.
+                                    </span>
+
                                     <TextInput
                                         id="email"
                                         type="email"
@@ -71,6 +82,10 @@ export default function Dashboard({ auth }: PageProps) {
 
                                 <div className="mt-4">
                                     <InputLabel htmlFor="phone" value="Telefone" />
+
+                                    <span className="text-sm text-slate-500 mb-5">
+                                        Adicione aqui um número com whatsapp, pois, você também receberá a notificação dos leads no seu whatsapp. Caso não queira receber notificações via whatsapp, basta deixar o campo em branco.
+                                    </span>
 
                                     <InputMask
                                         mask={data.phone.length == 15 ? '99 99 9999-99999' : '99 99 9999-99999'}

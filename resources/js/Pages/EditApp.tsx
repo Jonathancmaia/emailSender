@@ -3,6 +3,7 @@ import { PageProps } from '@/types';
 import { FormEventHandler, useEffect, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
+import Accordion from '@/Components/Accordion';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
 import TextInput from '@/Components/TextInput';
@@ -39,6 +40,7 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
     const [allLeads, setAllLeads] = useState(leads);
     const [groupedLeads, setGroupedLeads] = useState<GroupedLeads>({});
     const [loading, setLoading] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -107,6 +109,32 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
         });
     };
 
+    const copy = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+
+        const element = document.getElementById(id);
+
+        if (element) {
+            const range = document.createRange();
+            range.selectNode(element);
+            const selection = window.getSelection();
+
+            if (selection) {
+                selection.removeAllRanges();
+                selection.addRange(range);
+                
+                try {
+                    document.execCommand('copy');
+                    setIsCopied(true);
+                } catch (err) {
+                    console.error('Erro ao copiar o texto: ', err);
+                }
+                
+                selection.removeAllRanges();
+            }
+        }
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -119,10 +147,7 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         
                         {/* Edit app form */}
-                        <div className="p-6 text-gray-900 dark:text-gray-100">  
-                            <h1 className="mb-5">
-                                Editar App
-                            </h1>
+                        <Accordion title="Editar App">
                             <form onSubmit={submit}>
                                 <div>
                                     <InputLabel htmlFor="name" value="Nome" />
@@ -173,6 +198,30 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
                                     <InputError message={errors.phone} className="mt-2" />
                                 </div>
 
+                                <div className="mt-4">
+
+                                    <div className='flex items-center'>
+                                        <InputLabel htmlFor="token" value="API Token" />
+
+                                        <span className="flex items-center cursor-pointer" onClick={(e)=>{copy(e, 'token')}}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy ml-5 mr-1" viewBox="0 0 16 16">
+                                                <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
+                                            </svg>
+                                            {isCopied ? 'Copiado' : 'Copiar'}
+                                        </span>
+                                    </div>
+
+                                    <TextInput
+                                        id="token"
+                                        type="text"
+                                        name="token"
+                                        value={data.id}
+                                        className="mt-1 block w-full bg-slate-100"
+                                        autoComplete="name"
+                                        disabled={true}
+                                    />
+                                </div>
+
                                 <div className="flex row justify-between mt-4">
 
                                     <PrimaryButton disabled={processing}>
@@ -184,11 +233,11 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
                                     </DangerButton>
                                 </div>
                             </form>
-                        </div>
+                        </Accordion>
 
                         {/* Leads list */}
                         <div className={`p-6 text-gray-900 dark:text-gray-100 ${loading ? 'blur-sm' : ''}`}>
-                            <h1 className="mb-5">
+                            <h1 className="mb-5 text-xl">
                                 Leads
                             </h1>
                             <div className="flex flex-col md:flex-row md:justify-around">
