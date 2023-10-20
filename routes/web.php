@@ -43,7 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/create-app', [AppController::class, 'save'])->name('save-app');
     Route::post('/alter-app', [AppController::class, 'alter'])->name('alter-app');
     Route::post('/delete-app', [AppController::class, 'delete'])->name('delete-app');
+    
     Route::get('/delete-lead/{id}', [LeadController::class, 'delete'])->name('delete-lead');
+    Route::post('/step-lead', [LeadController::class, 'step'])->name('step-lead');
 });
 
 require __DIR__.'/auth.php';

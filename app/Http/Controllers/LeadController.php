@@ -29,4 +29,24 @@ class LeadController extends Controller
             return response()->json(['message' => 'Erro ao excluir o registro'], 500);
         }
     }
+
+    function step(Request $request){
+
+        try {
+            $lead = Lead::find($request->leadId);
+            
+            if ($lead->step !== $request->stepId){
+                $lead->step = $request->stepId;
+
+                if($lead->save()){
+                    $allLeads = Lead::where('app', $lead->app)->get();
+                    return response()->json(['leads' => $allLeads]);
+                } else {
+                    return response()->json(['message' => 'Erro ao salvar estado do lead.'], 500);
+                }
+            }
+        }  catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao mudar estado do lead.'], 500);
+        }
+    }
 }
