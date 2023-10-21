@@ -241,85 +241,93 @@ export default function Dashboard({ auth, app, leads }: PageProps & { app: AppDa
                                 Leads
                             </h1>
                             <div className="flex flex-col md:flex-row md:justify-around">
-                                <div className="flex flex-row md:flex-col items-center" onDrop={(e) => onDrop(e, 0)} onDragOver={(e) => onDragOver(e)}>
-                                    
-                                    {/* Recieved leads */}
-                                    <div className="p-2">Recebidos</div>
-                                    <hr className="mb-5"/>
-                                    {groupedLeads[0] && groupedLeads[0].map((lead, index) => (
-                                        <div key={index} className="rounded border-2 p-2" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
-                                            <div className="flex justify-between items-center m-1">
-                                                <div>#{lead.id}</div>
-                                                <Link href={route('delete-lead', { id: lead.id })}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                    </svg>
-                                                </Link>
+                                
+                                {/* Recieved leads */}
+                                <div className="flex flex-col items-center basis-1/4 basis-4" onDrop={(e) => onDrop(e, 0)} onDragOver={(e) => onDragOver(e)}>
+                                    <div className="p-1 mt-5">Recebidos</div>
+                                    <hr className="mb-5" />
+                                    <div className="flex overflow-x-scroll md:overflow-x-hidden md:flex-col max-h-screen w-full">
+                                        {groupedLeads[0] && groupedLeads[0].map((lead, index) => (
+                                            <div key={index} className="rounded border-2 p-2 m-1" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
+                                                <div className="flex justify-between items-center overflow-auto">
+                                                    <div>#{lead.id}</div>
+                                                    <Link href={route('delete-lead', { id: lead.id })}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                        </svg>
+                                                    </Link>
+                                                </div>
+                                                <hr/>
+                                                <Lead data={lead.data}/>
                                             </div>
-                                            <hr/>
-                                            <Lead data={lead.data} />
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* In contact leads */}
-                                <div className="flex flex-row md:flex-col items-center" onDrop={(e) => onDrop(e, 1)} onDragOver={(e) => onDragOver(e)}>
-                                    <div className="p-2">Em contato</div>
+                                <div className="flex flex-col items-center basis-1/4 basis-4" onDrop={(e) => onDrop(e, 1)} onDragOver={(e) => onDragOver(e)}>
+                                    <div className="p-1 mt-5">Em contato</div>
                                     <hr className="mb-5" />
-                                    {groupedLeads[1] && groupedLeads[1].map((lead, index) => (
-                                        <div key={index} className="rounded border-2 p-2" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
-                                            <div className="flex justify-between items-center m-1">
-                                                <div>#{lead.id}</div>
-                                                <Link href={route('delete-lead', { id: lead.id })}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                    </svg>
-                                                </Link>
+                                    <div className="flex overflow-x-scroll md:overflow-x-hidden md:flex-col max-h-screen w-full">
+                                        {groupedLeads[1] && groupedLeads[1].map((lead, index) => (
+                                            <div key={index} className="rounded border-2 p-2 m-1" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
+                                                <div className="flex justify-between items-center overflow-auto">
+                                                    <div>#{lead.id}</div>
+                                                    <Link href={route('delete-lead', { id: lead.id })}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                        </svg>
+                                                    </Link>
+                                                </div>
+                                                <hr/>
+                                                <Lead data={lead.data}/>
                                             </div>
-                                            <hr/>
-                                            <Lead data={lead.data} />
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* Converted leads */}
-                                <div className="flex flex-row md:flex-col items-center" onDrop={(e) => onDrop(e, 2)} onDragOver={(e) => onDragOver(e)}>
-                                    <div className="p-2">Convertidos</div>
+                                <div className="flex flex-col items-center basis-1/4 basis-4" onDrop={(e) => onDrop(e, 2)} onDragOver={(e) => onDragOver(e)}>
+                                    <div className="p-1 mt-5">Convertidos</div>
                                     <hr className="mb-5" />
-                                    {groupedLeads[2] && groupedLeads[2].map((lead, index) => (
-                                        <div key={index} className="rounded border-2 p-2" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
-                                            <div className="flex justify-between items-center m-1">
-                                                <div>#{lead.id}</div>
-                                                <Link href={route('delete-lead', { id: lead.id })}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                    </svg>
-                                                </Link>
+                                    <div className="flex overflow-x-scroll md:overflow-x-hidden md:flex-col max-h-screen w-full">
+                                        {groupedLeads[2] && groupedLeads[2].map((lead, index) => (
+                                            <div key={index} className="rounded border-2 p-2 m-1" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
+                                                <div className="flex justify-between items-center overflow-auto">
+                                                    <div>#{lead.id}</div>
+                                                    <Link href={route('delete-lead', { id: lead.id })}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                        </svg>
+                                                    </Link>
+                                                </div>
+                                                <hr/>
+                                                <Lead data={lead.data}/>
                                             </div>
-                                            <hr/>
-                                            <Lead data={lead.data} />
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* Discarted leads */}
-                                <div className="flex flex-row md:flex-col items-center" onDrop={(e) => onDrop(e, 3)} onDragOver={(e) => onDragOver(e)}>
-                                    <div className="p-2">Não convertidos</div>
+                                <div className="flex flex-col items-center basis-1/4 basis-4" onDrop={(e) => onDrop(e, 3)} onDragOver={(e) => onDragOver(e)}>
+                                    <div className="p-1 mt-5">Não convertidos</div>
                                     <hr className="mb-5" />
-                                    {groupedLeads[3] && groupedLeads[3].map((lead, index) => (
-                                        <div key={index} className="rounded border-2 p-2" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
-                                            <div className="flex justify-between items-center m-1">
-                                                <div>#{lead.id}</div>
-                                                <Link href={route('delete-lead', { id: lead.id })}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                                    </svg>
-                                                </Link>
+                                    <div className="flex overflow-x-scroll md:overflow-x-hidden md:flex-col max-h-screen w-full">
+                                        {groupedLeads[3] && groupedLeads[3].map((lead, index) => (
+                                            <div key={index} className="rounded border-2 p-2 m-1" draggable="true" onDragStart={(e) => onDragStart(e, Number(lead.id))}>
+                                                <div className="flex justify-between items-center overflow-auto">
+                                                    <div>#{lead.id}</div>
+                                                    <Link href={route('delete-lead', { id: lead.id })}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                        </svg>
+                                                    </Link>
+                                                </div>
+                                                <hr/>
+                                                <Lead data={lead.data}/>
                                             </div>
-                                            <hr/>
-                                            <Lead data={lead.data} />
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
