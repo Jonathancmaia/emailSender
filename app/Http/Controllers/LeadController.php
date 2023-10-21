@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Lead;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\App;
 
 class LeadController extends Controller
 {
@@ -23,10 +25,22 @@ class LeadController extends Controller
         try {
             $lead = Lead::find($id);
             $appKey = $lead->app;
-            $lead->delete();
-            return Redirect::route('edit-app', ['id' => $appKey]);
+            $appUser = App::find($appKey)->user;
+
+            if($appUser === Auth::user()->id){
+                $lead->delete();
+                return Redirect::route('edit-app', ['id' => $appKey]);
+            } else {
+                return Inertia::render('Dashboard', [
+                    'apps' => App::where('user', auth()->user()->id)->get(),
+                    'error' => "O Lead não pertence ao usuário."
+                ]);
+            }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao excluir o registro'], 500);
+            return Inertia::render('Dashboard', [
+                'apps' => App::where('user', auth()->user()->id)->get(),
+                'error' => "Erro ao exluir lead."
+            ]);
         }
     }
 
@@ -34,19 +48,31 @@ class LeadController extends Controller
 
         try {
             $lead = Lead::find($request->leadId);
-            
-            if ($lead->step !== $request->stepId){
-                $lead->step = $request->stepId;
+            $appKey = $lead->app;
+            $appUser = App::find($appKey)->user;
 
-                if($lead->save()){
-                    $allLeads = Lead::where('app', $lead->app)->get();
-                    return response()->json(['leads' => $allLeads]);
-                } else {
-                    return response()->json(['message' => 'Erro ao salvar estado do lead.'], 500);
+            if($appUser === Auth::user()->id){
+                if ($lead->step !== $request->stepId){
+                    $lead->step = $request->stepId;
+
+                    if($lead->save()){
+                        $allLeads = Lead::where('app', $lead->app)->get();
+                        return response()->json(['leads' => $allLeads]);
+                    } else {
+                        return response()->json(['message' => 'Erro ao salvar estado do lead.'], 500);
+                    }
                 }
+            } else {
+                return Inertia::render('Dashboard', [
+                    'apps' => App::where('user', auth()->user()->id)->get(),
+                    'error' => "O Lead não pertence ao usuário."
+                ]);
             }
         }  catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao mudar estado do lead.'], 500);
+           return Inertia::render('Dashboard', [
+                'apps' => App::where('user', auth()->user()->id)->get(),
+                'error' => "Erro eo mudar estado do lead."
+            ]);
         }
     }
 }

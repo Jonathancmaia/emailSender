@@ -8,6 +8,7 @@ use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\App;
 use App\Models\Lead;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AppController extends Controller
@@ -49,12 +50,20 @@ class AppController extends Controller
     function edit($id){
 
         $app = App::find($id);
-        $lead = Lead::where('app', $id)->get();
 
-        return Inertia::render('EditApp', [
-            'app' => $app,
-            'leads' => $lead
-        ]);
+        if($app->user === Auth::user()->id){
+            $lead = Lead::where('app', $id)->get();
+
+            return Inertia::render('EditApp', [
+                'app' => $app,
+                'leads' => $lead
+            ]);
+        } else {
+            return Inertia::render('Dashboard', [
+                'apps' => App::where('user', auth()->user()->id)->get(),
+                'error' => "O App não pertence ao usuário."
+            ]);
+        }
     }
 
     function alter(Request $request){
@@ -75,28 +84,43 @@ class AppController extends Controller
 
         $app = App::find($request->input('id'));
 
-        $app->name = $request->input('name');
-        $app->email = $request->input('email');
+        if($app->user === Auth::user()->id){
+            $app->name = $request->input('name');
+            $app->email = $request->input('email');
 
-        if($request->input('phone')){
-            $app->phone = preg_replace('/\D/', '', $request->input('phone'));
+            if($request->input('phone')){
+                $app->phone = preg_replace('/\D/', '', $request->input('phone'));
+            }
+
+            $app->save();
+
+            return Inertia::location($app->id.'?opened-accordion="true"');
+        } else {
+            return Inertia::render('Dashboard', [
+                'apps' => App::where('user', auth()->user()->id)->get(),
+                'error' => "O App não pertence ao usuário."
+            ]);
         }
-
-        $app->save();
-
-        return Redirect::to('/dashboard');
     }
 
     function delete(Request $request){
+
         $app = App::find($request->input('id'));
         
-        if($app->delete()){
+        if($app->user === Auth::user()->id){
+            if($app->delete()){
 
             Lead::where('app', $request->input('id'))->delete();
 
             return Redirect::to('/dashboard');
+            } else {
+                return response()->json('Erro ao excluir App.');
+            }
         } else {
-            return response()->json('Erro ao excluir App.');
+            return Inertia::render('Dashboard', [
+                'apps' => App::where('user', auth()->user()->id)->get(),
+                'error' => "O App não pertence ao usuário."
+            ]);
         }
     }
 }

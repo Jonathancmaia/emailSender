@@ -10,7 +10,7 @@ interface AppData {
     id: string;
 }
 
-export default function Dashboard({ auth, apps }: PageProps & { apps: AppData[] }) {
+export default function Dashboard({ auth, apps, error }: PageProps & { apps: AppData[],  error?: React.ReactNode }) {
 
     const [isCopied, setIsCopied] = useState(false);
     const copy = (e: React.MouseEvent, id: string) => {
@@ -38,12 +38,16 @@ export default function Dashboard({ auth, apps }: PageProps & { apps: AppData[] 
             }
         }
     }
-    
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>}
         >
+            {error && typeof error === 'string' && (
+                <div className="mt-5 sm:mx-5 flex full-width sm:rounded text-white bg-red-600 p-5">{error}</div>
+            )}
+
             <Head title="Dashboard" />
 
             <div className="py-12">

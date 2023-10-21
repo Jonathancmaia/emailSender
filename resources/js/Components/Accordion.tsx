@@ -7,7 +7,9 @@ interface AccordionProps {
 
 export default function Accordion({ title, children }: AccordionProps) {
 
-    const [accordionState, setAccordioState] = useState(true);
+    const [accordionState, setAccordioState] = useState(
+        new URL(window.location.href).searchParams.get("opened-accordion") ? false : true
+    );
 
     const expandOrCollapseArccordionBody = () => {
         setAccordioState(!accordionState);
